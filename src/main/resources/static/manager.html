@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="stylesheet" href="./style.css">
+    <title>HomeBanking</title>
+</head>
+
+<body>
+    <main>
+        <header></header>
+        <div class="layout" id="app">
+            <div>
+                <form class="col-8 p-2 ">
+                    <h3>Client Manager</h3>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword2" class="form-label">First Name</label>
+                        <input type="" class="form-control" id="exampleInputPassword2" v-model="obj.firstName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Last Name</label>
+                        <input type="" class="form-control" id="exampleInputPassword1" v-model="obj.lastName">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="exampleInputEmail3" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="exampleInputEmail3" aria-describedby="emailHelp" v-model="obj.email">
+                    </div>
+                
+                    <button class="btn btn-success" @click="addClient()">add Client</button>
+                </form>
+            </div>
+            <div>
+                <table class="table col-8 p-2 ">
+                    <thead>
+                        <tr>
+                           
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last Name</th>
+                            <th scope="col">Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="client of clients">
+                        
+                            <td>{{client.firstName}}</td>
+                            <td>{{client.lastName}}</td>
+                            <td>{{client.email}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h3>Client RES Response</h3>
+            <Pre>{{json}}</Pre>
+        </div>
+    </main>
+    <footer></footer>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+    <script src="./manager.js"></script>
+</body>
+
+</html>
