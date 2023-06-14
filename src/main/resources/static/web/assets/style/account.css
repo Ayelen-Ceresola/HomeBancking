@@ -1,0 +1,46 @@
+*{
+    margin: 0;
+    padding:0;
+    box-sizing: border-box;
+    
+}
+
+.layout {
+    min-height: 80vh !important;
+}
+
+.vh10{
+    height: 10vh !important;
+
+}
+
+.logo {
+    width: 60px !important;
+}
+
+.welcome{
+    display: flex !important;
+    justify-content: space-around !important;
+    align-items: center !important;
+    padding: 1rem !important;
+}
+
+caption{
+    font-size:larger;
+    font-weight: bolder;
+    color: black;
+}
+
+table, th, tr, td {
+    border: 1px solid black !important;
+    border-collapse: collapse !important;
+}
+
+table {
+    margin: 2rem !important;
+}
+th {
+    height: 3rem !important;
+    padding: 1rem !important;
+    
+}

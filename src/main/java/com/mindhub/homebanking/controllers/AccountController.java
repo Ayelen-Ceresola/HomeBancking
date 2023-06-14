@@ -1,36 +1,37 @@
 package com.mindhub.homebanking.controllers;
 
+import com.mindhub.homebanking.dtos.AccountDTO;
 import com.mindhub.homebanking.dtos.ClientDTO;
-import com.mindhub.homebanking.models.Client;
+import com.mindhub.homebanking.repositories.AccountRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
-import net.minidev.json.annotate.JsonIgnore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
-public class ClientController {
+public class AccountController {
 
     @Autowired
-    private ClientRepository clientRepository;
+    private AccountRepository accountRepository;
 
-    @RequestMapping ("/clients")
-    public List<ClientDTO> getClients(){
-        return clientRepository.findAll()
+    @RequestMapping("/accounts")
+    public List<AccountDTO> getClients(){
+        return accountRepository.findAll()
                 .stream()
-                .map(client -> new ClientDTO(client))
+                .map(account -> new AccountDTO(account))
                 .collect(Collectors.toList());
     }
-    @RequestMapping ("/clients/{id}")
-    public ClientDTO getClient(@PathVariable Long id){
-        return clientRepository.findById(id).map(clientDTO -> new ClientDTO(clientDTO)).orElse(null);
-    }
 
+    @RequestMapping("/accounts/{id}")
+        public AccountDTO getClient(@PathVariable Long id){
+        return accountRepository.findById(id).map(accountDto ->new AccountDTO(accountDto)).orElse(null);
+
+
+    }
 
 }

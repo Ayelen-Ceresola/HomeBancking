@@ -21,10 +21,10 @@ createApp({
 
     methods:{
         loadData(){
-            axios.get("http://localhost:8080/clients")
+            axios.get("http://localhost:8080/api/clients")
             .then((res) => {
                 this.json = res.data;
-                this.clients = res.data._embedded.clients;
+                this.clients = res.data
                 console.log(this.clients)
                 console.log(this.json)
             })
@@ -32,7 +32,7 @@ createApp({
         },
 
         postClient(){
-            axios.post("http://localhost:8080/clients" , this.obj)
+            axios.post("http://localhost:8080/rest/clients" , this.obj)
             .then((res) => {
                 this.loadData()
             }
