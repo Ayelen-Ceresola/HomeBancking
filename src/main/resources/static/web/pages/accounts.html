@@ -52,15 +52,15 @@
           </div>
         </div>
       </nav>
-      <section class="d-flex flex-column align-items-center m-5" >
-        <h5>Hello {{clients.firstName}}! These are your account:</h5>
-      </section>
-      <div class=" d-flex flex-column align-items-center m-5 "v-for="accounts of account1">
-        <div class="card col-6 m-2 shadow-lg p-3 mb-5 bg-body-tertiary rounded" >
+      <h5 class="text-center m-5">Hello {{clients.firstName}}! These are your account:</h5>
+      <section class="d-flex flex-wrap justify-content-around m-3 text-center">
+        
+      <div v-if="account1.length !=0" v-for="accounts of account1" class="col-4">
+        <div class="card m-2 shadow-lg p-3 mb-5 bg-body-tertiary rounded" >
           <div class="card-header">
             Account {{accounts.number}}
           </div>
-          <div class="card-body">
+          <div class="card-body  ">
             <h5 class="card-title">Creation Date</h5>
             <p class="card-text">{{accounts.creationDate}}</p>
             <h5 class="card-title">Balance</h5>
@@ -68,8 +68,26 @@
             <a :href="'./account.html?id='+ accounts.id" type="button" class="btn btn-primary">See more</a>
           </div>
         </div>
-        
       </div>
+      <p v-else> You don't have accounts</p>
+      </section>
+      <h5 class="text-center m-5">These are your Loans:</h5>
+      <section class="d-flex justify-content-center m-3 text-center">
+        <video class="col-1" src="../assets/images/laptop.mp4"></video>
+        <div class=" d-flex col-3 m-5 " v-if="loans.length !=0" v-for="loan of loans">
+          <div class="card col-10 m-2 shadow-lg p-3 mb-5 bg-body-tertiary rounded" >
+            <div class="card-header">
+              Loan
+            </div>
+            <div class="card-body">
+              <p class="card-text"> Name: {{loan.loanName}}</p>
+              <p class="card-text">Amount: ${{loan.amount}}</p>
+              <p class="card-text">Payments: {{loan.payments}} </p> 
+            </div>
+          </div>
+        </div>
+        <p v-else> You don't have loans</p>
+      </section>
     </main>
     <footer class=" container vh10 col-12 bg-primary d-flex align-items-center justify-content-center"
       data-bs-theme="dark">

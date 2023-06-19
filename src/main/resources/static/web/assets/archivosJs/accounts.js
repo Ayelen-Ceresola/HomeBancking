@@ -4,7 +4,8 @@ createApp({
     data(){
         return {
             clients:[],
-            account1:{},
+            account1:[],
+            loans:[],
          
         }
     },
@@ -23,6 +24,9 @@ createApp({
                 console.log(this.clients)
                 this.account1= res.data.accounts
                 this.account1.sort((a,b)=> a.id - b.id)
+                this.loans= res.data.loans
+                console.log(this.loans)
+
 
 
             })

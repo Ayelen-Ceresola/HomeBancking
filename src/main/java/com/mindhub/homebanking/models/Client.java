@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -13,21 +14,20 @@ public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native"  )
-
     private long id;
 
     @OneToMany(mappedBy="client", fetch=FetchType.EAGER)
 
-    Set<Account> accounts = new HashSet<>();
+    private Set<Account> accounts = new HashSet<>();
 
     public Set<Account> getAccounts() {
         return accounts;
     }
 
-    public void addAccount(Account account) {
-        account.setClient(this);
-        this.accounts.add(account);
-    }
+
+    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
+    private Set<ClientLoan> clientLoans= new HashSet<>();
+
 
     private String firstName;
     private String lastName;
@@ -39,7 +39,7 @@ public class Client {
         this.lastName = lastName;
         this.email = email;
     }
-
+    public Set<ClientLoan> getLoan(){return clientLoans;}
     public String getFirstName() {
         return firstName;
     }
@@ -66,6 +66,16 @@ public class Client {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void addAccount(Account account) {
+        account.setClient(this);
+        accounts.add(account);
+    }
+    public void addClientLoan(ClientLoan clientLoan){
+        clientLoan.setClient(this);
+        clientLoans.add(clientLoan);
+
     }
 
     @Override

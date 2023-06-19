@@ -24,13 +24,6 @@ public class Transaction {
 
     private Account account;
 
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
 
     public Transaction (){}
 
@@ -41,6 +34,14 @@ public class Transaction {
         this.description= description;
 
     }
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
 
     public long getId() {
         return id;
