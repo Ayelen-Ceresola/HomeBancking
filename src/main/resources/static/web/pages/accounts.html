@@ -37,7 +37,7 @@
                 <a class="nav-link active" aria-current="page" href="#">Accounts</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Cards</a>
+                <a class="nav-link active" aria-current="page" href="../pages/cards.html">Cards</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="#">Investments</a>
@@ -65,7 +65,7 @@
             <p class="card-text">{{accounts.creationDate}}</p>
             <h5 class="card-title">Balance</h5>
             <p class="card-text">${{accounts.balance.toFixed(2) }} </p> 
-            <a :href="'./account.html?id='+ accounts.id" type="button" class="btn btn-primary">See more</a>
+            <a :href="'./account.html?id='+ accounts.id" type="button" class="btn btn-primary ">See more</a>
           </div>
         </div>
       </div>
@@ -89,8 +89,8 @@
         <p v-else> You don't have loans</p>
       </section>
     </main>
-    <footer class=" container vh10 col-12 bg-primary d-flex align-items-center justify-content-center"
-      data-bs-theme="dark">
+    <footer class="vh10 col-12 bg-primary d-flex align-items-center justify-content-center"
+      >
       <p>Mindhub CH47 | Ayelen Ceresola</p>
     </footer>
     </div>

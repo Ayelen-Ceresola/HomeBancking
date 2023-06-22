@@ -17,14 +17,16 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native"  )
     private long id;
+    private String number;
+    private LocalDate creationDate;
+    private Double balance;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="client_id")
     private Client client;
 
-    private String number;
-    private LocalDate creationDate;
-    private Double balance;
+    @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
+    private Set<Transaction> transactions = new HashSet<>();
 
     public Account (){}
 
@@ -34,8 +36,7 @@ public class Account {
         this.balance= balance;
 
     }
-    @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
-    private Set<Transaction> transactions = new HashSet<>();
+
 
    public void addTransaction (Transaction transaction){
        transaction.setAccount(this);

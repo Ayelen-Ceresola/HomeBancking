@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <link rel="stylesheet" href="../assets/style/card.css">
+  <title>Cards</title>
+</head>
+
+<body>
+  <div id="app">
+    <header class="vh10">
+      <div class="welcome">
+        <img class="logo" src="../assets/Images/ad44641f-092a-4ff5-bdc0-57849e5f7438.jpg" alt="Logo">
+        <h3>Welcome to South Bank</h3>
+      </div>
+    </header>
+    <main class="layout m-2">
+      <nav class=" container navbar navbar-expand-md bg-primary" data-bs-theme="dark">
+        <div class="container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse p-1" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex align-items-center">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="../pages/accounts.html">Accounts</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Cards</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Investments</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">We Lend</a>
+              </li>
+            </ul>
+            <form class="d-flex" role="search">
+              <input class="form-control me-2 col-6" type="search" placeholder="Search" aria-label="Search">
+            </form>
+          </div>
+        </div>
+      </nav>
+      <h5 class="text-center m-5">{{clients.firstName}} these are your Debit Card:</h5>
+      <div v-if="debitCard.length != 0" v-for="card of debitCard" >
+        <div class="container">
+          <div class="card">
+            <div class="card-inner">
+              <div class="front" :class="selectColor(card)">
+                <p class="d-none">{{card.color}}</p>
+                <img src="https://i.ibb.co/PYss3yv/map.png" class="map-img">
+                <div class="row">
+                  <img src="https://i.ibb.co/G9pDnYJ/chip.png" class="chip">
+                  <img src="https://i.ibb.co/WHZ3nRJ/visa.png" class="chip">
+                </div>
+                <div class="row card-no">
+                  <p>{{card.number}}</p>
+                </div>
+                <div class="d-flex justify-content-around">
+                  <div class="row card-holder">
+                    <p>CARD HOLDER</p>
+                    <p>{{card.cardHolder.toUpperCase()}}</p>
+                  </div>
+                  <div class="row card-holder">
+                    <p>THRU DATE</p>
+                    <p>{{card.thruDate.slice(5,10)}}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="back" :class="selectColor(card)">
+                <img src="https://i.ibb.co/PYss3yv/map.png" class="map-img">
+                <div class="bar"></div>
+                <div class="row card-cvv">
+                  <p class="text-end">{{card.cw}}</p>
+                </div>
+                <div class="row card-text">
+                  <p>this is a virtual card design using HTML and CSS. You can aslo design something like this.</p>
+                </div>
+                <div class="row signature">
+                  <p>CUSTOMER SIGNATURE</p>
+                  <img src="https://i.ibb.co/WHZ3nRJ/visa.png" class="visa">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p v-else> You don't have Debit Card</p>
+     <h5 class="text-center m-5">{{clients.firstName}} these are your Credit Card:</h5>
+      <div v-if="creditCard.length != 0" v-for="card of creditCard" >
+        <div class="container">
+          <div class="card">
+            <div class="card-inner">
+              <div class="front" :class="selectColor(card)">
+                <p class="d-none">{{card.color}}</p>
+                <img src="https://i.ibb.co/PYss3yv/map.png" class="map-img">
+                <div class="row">
+                  <img src="https://i.ibb.co/G9pDnYJ/chip.png" class="chip">
+                  <img src="https://i.ibb.co/WHZ3nRJ/visa.png" class="chip">
+                </div>
+                <div class="row card-no">
+                  <p>{{card.number}}</p>
+                </div>
+                <div class="d-flex justify-content-around">
+                  <div class="row card-holder">
+                    <p>CARD HOLDER</p>
+                    <p>{{card.cardHolder.toUpperCase()}}</p>
+                  </div>
+                  <div class="row card-holder">
+                    <p>THRU DATE</p>
+                    <p>{{card.thruDate.slice(5,10)}}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="back" :class="selectColor(card)">
+                <img src="https://i.ibb.co/PYss3yv/map.png" class="map-img">
+                <div class="bar"></div>
+                <div class="row card-cvv">
+                  <p class="text-end">{{card.cw}}</p>
+                </div>
+                <div class="row card-text">
+                  <p>this is a virtual card design using HTML and CSS. You can aslo design something like this.</p>
+                </div>
+                <div class="row signature">
+                  <p>CUSTOMER SIGNATURE</p>
+                  <img src="https://i.ibb.co/WHZ3nRJ/visa.png" class="visa">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p v-else> You don't have Credit Card</p>
+
+    </main>
+    <footer id="footer" class="vh10 col-12 bg-primary d-flex align-items-center justify-content-center"
+      data-bs-theme="dark">
+      <p>Mindhub CH47 | Ayelen Ceresola</p>
+    </footer>
+
+  </div>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+    crossorigin="anonymous"></script>
+  <script src="../assets/archivosJs/cards.js"></script>
+</body>
+
+</html>

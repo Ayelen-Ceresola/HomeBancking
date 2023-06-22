@@ -22,7 +22,7 @@ public class HomebankingApplication {
 	}
 
 	@Bean
-	public CommandLineRunner initData(ClientRepository clientRepository, AccountRepository accountRepository, TransactionRepository transactionRepository, LoanRepository loanRepository, ClientLoanRepository clientLoanRepository){
+	public CommandLineRunner initData(ClientRepository clientRepository, AccountRepository accountRepository, TransactionRepository transactionRepository, LoanRepository loanRepository, ClientLoanRepository clientLoanRepository, CardRepository cardRepository){
 		return args -> {
 
 			Client client1 = new Client( "Melba","Morel", " melba@mindhub.com");
@@ -41,12 +41,23 @@ public class HomebankingApplication {
 			Loan loanCar = new Loan("car",300000.00, Arrays.asList( 6,12,24,36));
 
 
-
 			ClientLoan mortgageMelba = new ClientLoan(400000.00,60);
 			ClientLoan personalMelba = new ClientLoan(50000.00,12);
 
 			ClientLoan personalRumba = new ClientLoan(100000.00,24);
 			ClientLoan carRumba = new ClientLoan(200000.00,36);
+
+			Card card1 = new Card(client1.getFirstName() + " " + client1.getLastName(),CardType.DEBIT,CardColor.GOLD,"1234 5678 9876 5432", (short) 258,LocalDateTime.now().plusYears(5),LocalDateTime.now());
+			Card card2 = new Card(client1.getFirstName() + " " + client1.getLastName(),CardType.CREDIT,CardColor.TITANIUM,"1234 5678 1234 5678",(short) 147,LocalDateTime.now().plusYears(5),LocalDateTime.now());
+			Card card3 = new Card(client2.getFirstName() + " " + client2.getLastName(),CardType.CREDIT,CardColor.SILVER,"9876 5432 1234 5678", (short) 369,LocalDateTime.now().plusYears(5), LocalDateTime.now());
+
+			client1.addAccount(account1);
+			client1.addAccount(account2);
+
+			account1.addTransaction(transaction1);
+			account1.addTransaction(transaction2);
+			account1.addTransaction(transaction3);
+			account1.addTransaction(transaction4);
 
 			client1.addClientLoan(mortgageMelba);
 			client1.addClientLoan(personalMelba);
@@ -58,18 +69,14 @@ public class HomebankingApplication {
 			loanPersonal.addClientLoan(personalRumba);
 			loanCar.addClientLoan(carRumba);
 
+			client1.addCard(card1);
+			client1.addCard(card2);
+			client2.addCard(card3);
+
 
 
 			clientRepository.save(client1);
 			clientRepository.save(client2);
-
-			client1.addAccount(account1);
-			client1.addAccount(account2);
-
-			account1.addTransaction(transaction1);
-			account1.addTransaction(transaction2);
-			account1.addTransaction(transaction3);
-			account1.addTransaction(transaction4);
 
 			accountRepository.save(account1);
 			accountRepository.save(account2);
@@ -85,6 +92,10 @@ public class HomebankingApplication {
 
 			clientLoanRepository.save(mortgageMelba);
 			clientLoanRepository.save(personalMelba);
+
+			cardRepository.save(card1);
+			cardRepository.save(card2);
+			cardRepository.save(card3);
 
 
 
