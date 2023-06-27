@@ -1,0 +1,81 @@
+*{
+    margin: 0;
+    padding:0;
+    box-sizing: border-box;
+    
+}
+
+.vh10{
+    height: 10vh !important;
+
+}
+
+.logo {
+    width: 80px !important;
+    border-radius: 50% !important;
+}
+
+.welcome{
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin: 3rem !important;
+    gap: 2rem !important;
+    padding: 1rem !important;
+}
+
+footer{
+    background-color:rgb(49, 49, 49) !important;
+    color: aliceblue;
+
+}
+
+
+main{
+    min-height: 80vh;
+
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    background: rgb(165, 213, 248);
+    text-align: center;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 5px 10px rgb(58, 58, 58);
+}
+
+form .title{
+    color: rgb(42, 41, 41);
+    font-size: 35px;
+    font-weight: 800;
+    margin-bottom: 20px;
+
+}
+
+form label{
+    margin-bottom: 35px;
+}
+input {
+    outline: none;
+    border: none;
+    margin-bottom: 20px;
+    color: rgb(23, 23, 23);
+    background:rgb(165, 213, 248);
+    border-bottom: solid 1px rgb(9, 9, 40);
+    padding: 0 5px;
+    font-size: 15px;
+}
+
+input::placeholder{
+    color: rgb(57, 57, 57);
+}
+
+form button{
+    color: aliceblue;
+    border: none;   
+    background: rgb(49, 49, 49);
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 20px;
+}

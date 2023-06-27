@@ -18,16 +18,16 @@ createApp({
 
     methods:{
         loadData(){
-            axios.get("http://localhost:8080/api/clients/1")
+            axios.get("http://localhost:8080/api/clients/current")
             .then((res) => {
                 this.clients = res.data
                 console.log(this.clients)
                 
                 this.cards= res.data.cards
                 console.log(this.cards)
-                this.debitCard= res.data.cards.filter(card=> card.type == "DEBIT")
+                this.debitCard= res.data.cards.filter(card=> card.type == "DEBIT").sort((a,b)=> a.id - b.id)
                 console.log(this.debitCard)
-                this.creditCard= res.data.cards.filter(card=> card.type == "CREDIT")
+                this.creditCard= res.data.cards.filter(card=> card.type == "CREDIT").sort((a,b)=> a.id - b.id)
                 console.log(this.creditCard)
 
 
@@ -47,6 +47,13 @@ createApp({
                 return "titaniumColor"
             }
 
+        },
+        logout(){
+            axios.post("/api/logout")
+            .then((res) => {
+                window.location.href= "/web/pages/index.html"
+            })
+            .catch(err => console.log(err))
         }
     }
 

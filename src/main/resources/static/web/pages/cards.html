@@ -44,9 +44,7 @@
                 <a class="nav-link active" aria-current="page" href="#">We Lend</a>
               </li>
             </ul>
-            <form class="d-flex" role="search">
-              <input class="form-control me-2 col-6" type="search" placeholder="Search" aria-label="Search">
-            </form>
+            <button @click="logout()" class="btn btn-danger">Logout</button>
           </div>
         </div>
       </nav>
@@ -94,7 +92,7 @@
           </div>
         </div>
       </div>
-      <p v-else> You don't have Debit Card</p>
+      <p class="text-center" v-else> You don't have Debit Card</p>
      <h5 class="text-center m-5">{{clients.firstName}} these are your Credit Card:</h5>
       <div v-if="creditCard.length != 0" v-for="card of creditCard" >
         <div class="container">
@@ -125,7 +123,7 @@
                 <img src="https://i.ibb.co/PYss3yv/map.png" class="map-img">
                 <div class="bar"></div>
                 <div class="row card-cvv">
-                  <p class="text-end">{{card.cw}}</p>
+                  <p class="text-end">{{card.cvv}}</p>
                 </div>
                 <div class="row card-text">
                   <p>this is a virtual card design using HTML and CSS. You can aslo design something like this.</p>
@@ -139,7 +137,7 @@
           </div>
         </div>
       </div>
-      <p v-else> You don't have Credit Card</p>
+      <p class="text-center" v-else> You don't have Credit Card</p>
 
     </main>
     <footer id="footer" class="vh10 col-12 bg-primary d-flex align-items-center justify-content-center"

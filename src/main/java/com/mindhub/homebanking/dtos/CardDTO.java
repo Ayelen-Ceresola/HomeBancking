@@ -13,7 +13,7 @@ public class CardDTO {
     private CardType type;
     private CardColor color;
     private String number;
-    private  short cw;
+    private  short cvv;
     private LocalDateTime thruDate;
     private LocalDateTime fromDate;
 
@@ -24,7 +24,7 @@ public class CardDTO {
         this.type = card.getType();
         this.color = card.getColor();
         this.number = card.getNumber();
-        this.cw = card.getCw();
+        this.cvv = card.getCvv();
         this.thruDate = card.getThruDate();
         this.fromDate = card.getFromDate();
     }
@@ -45,8 +45,8 @@ public class CardDTO {
         return number;
     }
 
-    public short getCw() {
-        return cw;
+    public short getCvv() {
+        return cvv;
     }
 
     public LocalDateTime getThruDate() {

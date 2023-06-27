@@ -34,7 +34,7 @@
                             <a class="nav-link active" aria-current="page" href="../pages/accounts.html">Accounts</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Cards</a>
+                            <a class="nav-link active" aria-current="page" href="../pages/cards.html">Cards</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="#">Investments</a>
@@ -43,16 +43,14 @@
                             <a class="nav-link active" aria-current="page" href="#">We Lend</a>
                         </li>
                     </ul>
-                    <form class="d-flex" role="search">
-                        <input class="form-control me-2 col-6" type="search" placeholder="Search" aria-label="Search">
-                    </form>
+                    <button @click="logout()" class="btn btn-danger">Logout</button>
                 </div>
             </div>
         </nav>
         
         <div class=" container table d-flex flex-column justify-content-center col-md-5 table-expand-md p-3 " >
             <table class="shadow-lg p-3 mb-5 bg-body-tertiary rounded " v-if=" transactions !=0">
-                <caption class="text-center m-4 caption-top ">These are your transactions</caption>
+                <caption class="text-center m-4 caption-top ">These are the account {{account.number}} transactions</caption>
                 <thead>
                     <tr class="text-center">
                         <th>Type</th>

@@ -18,7 +18,7 @@ public class Card {
     private CardType type;
     private CardColor color;
     private String number;
-    private  short cw;
+    private  short cvv;
     private LocalDateTime thruDate;
     private LocalDateTime fromDate;
 
@@ -33,7 +33,7 @@ public class Card {
         this.type = type;
         this.color = color;
         this.number = number;
-        this.cw = cw;
+        this.cvv = cvv;
         this.thruDate = thruDate;
         this.fromDate = fromDate;
 
@@ -75,12 +75,12 @@ public class Card {
         this.number = number;
     }
 
-    public short getCw() {
-        return cw;
+    public short getCvv() {
+        return cvv;
     }
 
     public void setCw(short cw) {
-        this.cw = cw;
+        this.cvv = cvv;
     }
 
     public LocalDateTime getThruDate() {
@@ -116,7 +116,7 @@ public class Card {
                 ", type=" + type +
                 ", color=" + color +
                 ", number='" + number + '\'' +
-                ", cw=" + cw +
+                ", cvv=" + cvv +
                 ", thruDate=" + thruDate +
                 ", fromDate=" + fromDate +
                 '}';
