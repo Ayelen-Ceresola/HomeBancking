@@ -25,15 +25,34 @@ createApp({
                     { headers: { 'content-type': 'application/x-www-form-urlencoded' } })
 
                     .then((res) => {
-                        console.log('signed in!!!')
+                        Swal.fire({
+                            position: 'top-center',
+                            icon: 'success',
+                            title: 'Welcome',
+                            showConfirmButton: false,
+                            timer: 2000,
+                            customClass:{
+                                popup: `alertCss`
+                            }
+                          })
                         window.location.href = "/web/pages/accounts.html"
-                        alert("Welcome")
+                        
 
                     })
-                    .catch(err => console.log(err))
+                    .catch(err => console.log(err.data.error))
 
             } else {
-                alert("Fill in all the fields")
+                Swal.fire({
+                    position: 'top-center',
+                    icon: 'error',
+                    title: 'Fill in all the fields',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    customClass:{
+                        popup: `alertCss`
+                    }
+                  })
+                
             }
 
         },
@@ -49,7 +68,16 @@ createApp({
                             .then((res) => {
                                 console.log('signed in!!!')
                                 window.location.href = "/web/pages/accounts.html"
-                                alert("Welcome")
+                                Swal.fire({
+                                    position: 'top-center',
+                                    icon: 'success',
+                                    title: 'Welcome',
+                                    showConfirmButton: false,
+                                    timer: 2000,
+                                    customClass:{
+                                        popup: `alertCss`
+                                    }
+                                })
 
                             })
                             .catch(err => console.log(err))
@@ -57,7 +85,18 @@ createApp({
                     })
                     .catch(err => console.log(err))
             }else {
-                alert("Fill in all the fields")
+                Swal.fire({
+                    position: 'top-center',
+                    icon: 'error',
+                    title: 'Fill in all the fields',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    customClass:{
+                        popup: `alertCss`
+                    }
+                })
+                
+                
             }
 
         }

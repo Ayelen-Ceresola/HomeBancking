@@ -44,12 +44,13 @@
                 <a class="nav-link active" aria-current="page" href="#">We Lend</a>
               </li>
             </ul>
+            <a type="button" href="../pages/create-cards.html" class="btn btn-info m-2" v-if="creditCard.length < 3 || debitCard.length < 3">Create</a>
             <button @click="logout()" class="btn btn-danger">Logout</button>
           </div>
         </div>
       </nav>
       <h5 class="text-center m-5">{{clients.firstName}} these are your Debit Card:</h5>
-      <div v-if="debitCard.length != 0" v-for="card of debitCard" >
+      <div v-if="debitCard.length != 0" v-for="card of debitCard" class="d-flex">
         <div class="container">
           <div class="card">
             <div class="card-inner">

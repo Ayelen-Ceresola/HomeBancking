@@ -56,9 +56,9 @@ public class HomebankingApplication {
 			ClientLoan personalRumba = new ClientLoan(100000.00,24);
 			ClientLoan carRumba = new ClientLoan(200000.00,36);
 
-			Card card1 = new Card(client1.getFirstName() + " " + client1.getLastName(),CardType.DEBIT,CardColor.GOLD,"1234 5678 9876 5432", (short) 258,LocalDateTime.now().plusYears(5),LocalDateTime.now());
-			Card card2 = new Card(client1.getFirstName() + " " + client1.getLastName(),CardType.CREDIT,CardColor.TITANIUM,"1234 5678 1234 5678",(short) 147,LocalDateTime.now().plusYears(5),LocalDateTime.now());
-			Card card3 = new Card(client2.getFirstName() + " " + client2.getLastName(),CardType.CREDIT,CardColor.SILVER,"9876 5432 1234 5678", (short) 369,LocalDateTime.now().plusYears(5), LocalDateTime.now());
+			Card card1 = new Card(client1.getFirstName() + " " + client1.getLastName(),CardType.DEBIT,CardColor.GOLD,"1234 5678 9876 5432", 258,LocalDateTime.now().plusYears(5),LocalDateTime.now());
+			Card card2 = new Card(client1.getFirstName() + " " + client1.getLastName(),CardType.CREDIT,CardColor.TITANIUM,"1234 5678 1234 5678",147,LocalDateTime.now().plusYears(5),LocalDateTime.now());
+			Card card3 = new Card(client2.getFirstName() + " " + client2.getLastName(),CardType.CREDIT,CardColor.SILVER,"9876 5432 1234 5678", 369,LocalDateTime.now().plusYears(5), LocalDateTime.now());
 
 			client1.addAccount(account1);
 			client1.addAccount(account2);

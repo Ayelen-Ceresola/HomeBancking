@@ -30,6 +30,7 @@ public class WebAuthorization  {
                 .antMatchers(HttpMethod.POST,"/api/login").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/clients").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/logout").permitAll()
+                .antMatchers(HttpMethod.POST,"/clients/current/accounts","/api/clients/current/cards").hasAuthority("CLIENT")
                 .antMatchers("/web/pages/**","/api/clients/current").hasAuthority("CLIENT")
                 .antMatchers( "/h2-console","/rest/**").hasAuthority("ADMIN");
 
