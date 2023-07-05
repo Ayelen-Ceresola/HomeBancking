@@ -12,16 +12,15 @@ createApp({
 
     created() {
 
-        console.log(this.cardType,this.cardColor+"hola")
-
+        
     },
 
 
     methods: {
         
         createCards() {
-            console.log(this.cardType,this.cardColor)
-                axios.post("/api/clients/current/cards", `cardColor=${this.cardColor}&cardType=${this.cardType}`,
+            
+                axios.post("/api/clients/current/cards",`cardColor=${this.cardColor}&cardType=${this.cardType}`,
                     )
                     .then((res) => {
                         window.location.href = "/web/pages/cards.html"

@@ -25,7 +25,7 @@ createApp({
                 this.account = res.data
                 console.log(this.account)
                 this.transactions = this.account.transactions
-                this.transactions.sort((itemA, itemB)=> itemA.id - itemB.id)
+                this.transactions.sort((itemA, itemB)=> itemB.id - itemA.id)
                 console.log(this.transactions)
                 
 

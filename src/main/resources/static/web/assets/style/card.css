@@ -42,11 +42,12 @@
 .card {
     width: 500px;
     height: 300px;
-   
+    margin: 1rem !important;
     color: #fff;
     text-shadow: 3px 2px 5px rgb(5, 5, 5);
     cursor: pointer;
     perspective: 1000px;
+    border: none !important;
 }
 
 .card-inner {

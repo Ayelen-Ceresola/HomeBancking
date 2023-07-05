@@ -18,10 +18,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class WebAuthentication extends GlobalAuthenticationConfigurerAdapter {
 
     @Autowired
-     ClientRepository clientRepository;
+     private ClientRepository clientRepository;
 
     @Bean
-
     public PasswordEncoder passwordEncoder() {
 
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
@@ -29,7 +28,6 @@ public class WebAuthentication extends GlobalAuthenticationConfigurerAdapter {
     }
 
     @Override
-
     public void init(AuthenticationManagerBuilder auth) throws Exception {
 
         auth.userDetailsService(email-> {

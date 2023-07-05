@@ -83,7 +83,7 @@ public class ClientController {
         Random random= new Random();
         String accountNumber = "VIN-" + (random.nextInt(90000000) + 100000);
 
-         while (accountRepository.findByNumber(accountNumber) == accountNumber ){
+         while (accountRepository.findByNumber(accountNumber) != null ){
              Random random2= new Random();
              String accountNumber2 = "VIN-" + (random2.nextInt(90000000) + 100000);
              }

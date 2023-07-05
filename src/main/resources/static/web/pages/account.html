@@ -43,6 +43,7 @@
                             <a class="nav-link active" aria-current="page" href="#">We Lend</a>
                         </li>
                     </ul>
+                    <a :href="'../pages/transaction.html?id='+ account.id" type="button" class="btn btn-info m-2" >New transaction</a>
                     <button @click="logout()" class="btn btn-danger">Logout</button>
                 </div>
             </div>

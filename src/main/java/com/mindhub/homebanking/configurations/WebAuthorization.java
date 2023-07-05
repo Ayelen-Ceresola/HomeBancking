@@ -1,5 +1,6 @@
 package com.mindhub.homebanking.configurations;
 
+import netscape.javascript.JSException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -21,7 +22,6 @@ import javax.servlet.http.HttpSession;
 public class WebAuthorization  {
 
     @Bean
-
     public SecurityFilterChain filterChain (HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
@@ -36,6 +36,8 @@ public class WebAuthorization  {
 
 
 
+
+
         http.formLogin()
 
                 .usernameParameter("email")
@@ -45,16 +47,27 @@ public class WebAuthorization  {
                 .loginPage("/api/login");
 
 
-        http.logout().logoutUrl("/api/logout");
+        http.logout().logoutUrl("/api/logout").deleteCookies("JSESSIONID");
 
-
+        //Deshabilita la protección CSRF (Cross-Site Request Forgery)
         http.csrf().disable();
+
+        //Deshabilita las opciones para acceder a H2 console
         http.headers().frameOptions().disable();
+
+        //Configura un punto de entrada para el manejo de autenticación y envía un código de error HTTP 401 (Unauthorized) si se produce un error de autenticación.
         http.exceptionHandling().authenticationEntryPoint((req, res, exc) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED));
+
+        // Configura un manejador de éxito de inicio de sesión que limpia los atributos de autenticación.
         http.formLogin().successHandler((req, res, auth) -> clearAuthenticationAttributes(req));
+
+        //si la sesion falla te envia una respuesta de fallo de autenticacion
         http.formLogin().failureHandler((req, res, exc) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED));
+
+        //si el cierre de sesion es exitoso se envia una respuesta de exitosa
         http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
 
+        //construye y devuelve el filtro configurado
         return http.build();
     }
 

@@ -98,18 +98,19 @@ public class CardController {
 
             String cardNumber = sb.toString();
 
-            while (cardRepository.findByNumber(cardNumber) == cardNumber) {
+            while (cardRepository.findByNumber(cardNumber) != null) {
                 Random randomNumber2 = new Random();
                 StringBuilder sb2 = new StringBuilder();
 
                 for (int i = 0; i < 4; i++) {
-                    int number = randomNumber.nextInt(9000) + 1000;
+                    int number = randomNumber2.nextInt(9000) + 1000;
                     sb.append(number);
                     if (i < 3) {
                         sb2.append("-");
 
                     }
                 }
+                String cardNumber2 = sb.toString();
             }
 
             newCard.setNumber(cardNumber);

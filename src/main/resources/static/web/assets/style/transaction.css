@@ -1,0 +1,26 @@
+*{
+    margin: 0;
+    padding:0;
+    box-sizing: border-box;
+    
+}
+
+.layout {
+    min-height: 80vh !important;
+}
+
+.vh10{
+    height: 10vh !important;
+
+}
+
+.logo {
+    width: 60px !important;
+}
+
+.welcome{
+    display: flex !important;
+    justify-content: space-around !important;
+    align-items: center !important;
+    padding: 1rem !important;
+}
