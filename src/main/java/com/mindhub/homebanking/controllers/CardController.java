@@ -6,6 +6,8 @@ import com.mindhub.homebanking.models.CardType;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.repositories.CardRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
+import com.mindhub.homebanking.services.CardService;
+import com.mindhub.homebanking.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,62 +24,23 @@ import java.util.Set;
 public class CardController {
 
     @Autowired
-    private CardRepository cardRepository;
+    private CardService cardService;
 
     @Autowired
-    private ClientRepository clientRepository;
+    private ClientService clientService;
 
     @RequestMapping(path = "/clients/current/cards", method = RequestMethod.POST)
     public ResponseEntity<Object> createCardCurrentClient(Authentication authentication, @RequestParam CardColor cardColor, @RequestParam CardType cardType) {
 
 
 
-        Client client= clientRepository.findByEmail(authentication.getName());
+        Client client= clientService.findByEmail(authentication.getName());
 
-        if (cardRepository.findByClientAndColorAndType(client,cardColor,cardType )!= null){
+        if (cardService.findByClientAndColorAndType(client,cardColor,cardType )!= null){
 
             return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
 
         }else {
-
-//        Set<Card> clientCards = client.getCards();
-//
-//        long debitGoldCount = clientCards.stream()
-//                .filter(card -> card.getType() == CardType.DEBIT && card.getColor() == CardColor.GOLD)
-//                .count();
-//        long debitPlatinumCount = clientCards.stream()
-//                .filter(card -> card.getType() == CardType.DEBIT && card.getColor() == CardColor.TITANIUM)
-//                .count();
-//        long debitSilverCount = clientCards.stream()
-//                .filter(card -> card.getType() == CardType.DEBIT && card.getColor() == CardColor.SILVER)
-//                .count();
-//        long creditGoldCount = clientCards.stream()
-//                .filter(card -> card.getType() == CardType.CREDIT && card.getColor() == CardColor.GOLD)
-//                .count();
-//        long creditPlatinumCount = clientCards.stream()
-//                .filter(card -> card.getType() == CardType.CREDIT && card.getColor() == CardColor.TITANIUM)
-//                .count();
-//        long creditSilverCount = clientCards.stream()
-//                .filter(card -> card.getType() == CardType.CREDIT && card.getColor() == CardColor.SILVER)
-//                .count();
-//
-//        if (cardType == CardType.DEBIT) {
-//            if (CardColor.GOLD == CardColor.GOLD && debitGoldCount == 1) {
-//                return new ResponseEntity<>("Forbidden: The client already has a gold debit card", HttpStatus.FORBIDDEN);
-//            } else if (CardColor.TITANIUM == CardColor.TITANIUM && debitPlatinumCount == 1) {
-//                return new ResponseEntity<>("Forbidden: The client already has a platinum debit card", HttpStatus.FORBIDDEN);
-//            } else if (CardColor.SILVER == CardColor.SILVER && debitSilverCount == 1) {
-//                return new ResponseEntity<>("Forbidden: The client already has a silver debit card", HttpStatus.FORBIDDEN);
-//            }
-//        } else if (cardType == CardType.CREDIT) {
-//            if (CardColor.GOLD == CardColor.GOLD && creditGoldCount == 1) {
-//                return new ResponseEntity<>("Forbidden: The client already has a gold credit card", HttpStatus.FORBIDDEN);
-//            } else if (CardColor.TITANIUM == CardColor.TITANIUM && creditPlatinumCount == 1) {
-//                return new ResponseEntity<>("Forbidden: The client already has a platinum credit card", HttpStatus.FORBIDDEN);
-//            } else if (CardColor.SILVER == CardColor.SILVER && creditSilverCount == 1) {
-//                return new ResponseEntity<>("Forbidden: The client already has a silver credit card", HttpStatus.FORBIDDEN);
-//            }
-//        }
 
             Card newCard = new Card(client.getFirstName() + " " + client.getLastName(), cardType, cardColor, "", 0, LocalDateTime.now().plusYears(5), LocalDateTime.now());
 
@@ -98,7 +61,7 @@ public class CardController {
 
             String cardNumber = sb.toString();
 
-            while (cardRepository.findByNumber(cardNumber) != null) {
+            while (cardService.findByNumber(cardNumber) != null) {
                 Random randomNumber2 = new Random();
                 StringBuilder sb2 = new StringBuilder();
 
@@ -116,7 +79,7 @@ public class CardController {
             newCard.setNumber(cardNumber);
             newCard.setCvv(cvv);
             client.addCard(newCard);
-            cardRepository.save(newCard);
+            cardService.save(newCard);
 
             return new ResponseEntity<>(HttpStatus.CREATED);
 

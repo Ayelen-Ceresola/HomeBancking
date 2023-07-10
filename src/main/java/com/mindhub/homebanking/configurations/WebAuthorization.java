@@ -27,12 +27,20 @@ public class WebAuthorization  {
         http.authorizeRequests()
 
                 .antMatchers("/web/pages/index.html").permitAll()
+                .antMatchers("/web/assets/**").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/login").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/clients").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/logout").permitAll()
                 .antMatchers(HttpMethod.POST,"/clients/current/accounts","/api/clients/current/cards").hasAuthority("CLIENT")
-                .antMatchers("/web/pages/**","/api/clients/current").hasAuthority("CLIENT")
-                .antMatchers( "/h2-console","/rest/**").hasAuthority("ADMIN");
+                .antMatchers(HttpMethod.POST,"/api/loans").hasAuthority("CLIENT")
+                .antMatchers(HttpMethod.POST,"/api/transaction").hasAuthority("CLIENT")
+                .antMatchers("/web/pages/**","/api/clients/current/**").hasAuthority("CLIENT")
+                .antMatchers("/api/loans").hasAuthority("CLIENT")
+                .antMatchers("/api/accounts").hasAuthority("CLIENT")
+                .antMatchers("/api/accounts/{id}").hasAuthority("CLIENT")
+                .antMatchers("/api/accounts").hasAuthority("CLIENT")
+                .antMatchers( "/h2-console","/rest/**","/api/clients","/web/manager.html").hasAuthority("ADMIN");
+
 
 
 

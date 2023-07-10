@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-    <link rel="stylesheet" href="../assets/style/create-cards.css">
-    <title>Create cards</title>
+    <link rel="stylesheet" href="../assets/style/loan-appliacation.css">
+    <title>Loan</title>
 </head>
-
 <body>
     <div id="app">
         <header class="vh10">
@@ -51,26 +49,33 @@
             </nav>
             <form class="col-12 d-flex align-items-center justify-content-center m-5">
                 <fieldset>
-                  <legend>Select the type and color of your card</legend>
+                  <legend class="col-7">{{clients.firstName}} these are the options for a loan</legend>
                   <div class="mb-3">
-                    <label for="selectType" class="form-label">Select type card</label>
-                    <select id="selectType" class="form-select" v-model="cardType" name="selectType">
-                      <option value="DEBIT">DEBIT</option>
-                      <option value="CREDIT">CREDIT</option>
+                    <label for="selectTypeLoan" class="form-label">Select type loan</label>
+                    <select id="selectTypeLoan" class="form-select" v-model="selectedLoan" @change="loadData()" name="selectTypeLoan">
+                      <option v-for="loan of loans" :value="loan.id">{{loan.name}} Max Amount ${{loan.maxAmount.toLocaleString()}}</option>
+                    </select>
+                    <div class="mb-3">
+                        <label for="selectPayments" class="form-label">Select paymets</label>
+                        <select id="selectPayments" class="form-select" v-model="payments" name="selectTypeLoan">
+                          <option v-for="payments of paymentsLoan" :value="payments" >{{payments}}</option>
+                        </select>
+                  </div>
+                  <div class="d-flex flex-column mb-3 col-6">
+                    <label for="select" class="form-label" >Select your destination account </label>
+                    <select name="select" id="select" v-model="destinationAccount">
+                      <option :value="account.number" v-for="account of allAcount" >{{account.number}}</option>
                     </select>
                   </div>
-                  <div class="mb-3">
-                    <label for="selectColor" class="form-label">Select type card</label>
-                    <select id="selectColor" class="form-select" v-model="cardColor" name="selectColor">
-                      <option value="GOLD">GOLD</option>
-                      <option value="SILVER">SILVER</option>
-                      <option value="TITANIUM">TITANIUM</option>
-                    </select>
-                  </div>    
-                  <button @click.prevent="createCards()" type="submit" class="btn btn-primary">Create</button>
-                </fieldset>
-              </form>
-             
+                  <div class="d-flex flex-column mb-3">
+                    <label for="selectAmount" class="form-label">Enter the amount to loan</label>
+                    <input class="col-6" type="text" id="selectAmount" v-model="amount">
+                </div>
+                       
+            <button @click.prevent="getLoan" type="submit" class="btn btn-primary">Apply</button>
+              </fieldset>
+            </form>
+
         </main>
         <footer id="footer" class="vh10 col-12 bg-primary d-flex align-items-center justify-content-center"
             data-bs-theme="dark">
@@ -82,7 +87,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous"></script>
-    <script src="../assets/archivosJs/create-cards.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../assets/archivosJs/loan-application.js"></script>
 </body>
-
 </html>
