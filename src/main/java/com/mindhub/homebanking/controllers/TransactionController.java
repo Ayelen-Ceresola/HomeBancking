@@ -1,44 +1,40 @@
 package com.mindhub.homebanking.controllers;
+
 import com.mindhub.homebanking.dtos.NewTransactionDTO;
-import com.mindhub.homebanking.models.Account;
-import com.mindhub.homebanking.models.Client;
-import com.mindhub.homebanking.models.Transaction;
-import com.mindhub.homebanking.models.TransactionType;
+import com.mindhub.homebanking.dtos.PaymentsDTO;
+import com.mindhub.homebanking.models.*;
 import com.mindhub.homebanking.services.AccountService;
+import com.mindhub.homebanking.services.CardService;
 import com.mindhub.homebanking.services.ClientService;
 import com.mindhub.homebanking.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
-
 public class TransactionController {
 
     @Autowired
     private AccountService accountService;
-
     @Autowired
     private ClientService clientService;
-
     @Autowired
     private TransactionService transactionService;
+    @Autowired
+    private CardService cardService;
 
     @Transactional
-    @RequestMapping(path = "/transactions", method = RequestMethod.POST)
+    @PostMapping("/transactions")
 
     public ResponseEntity<Object> sendTransaction(Authentication authentication, @RequestBody NewTransactionDTO newTransactionDTO) {
-
 
 
         if (newTransactionDTO.getNumberSourceAccount().isBlank()) {
@@ -50,7 +46,7 @@ public class TransactionController {
         if (newTransactionDTO.getAmount() == null) {
             return new ResponseEntity<>("Missing amount", HttpStatus.FORBIDDEN);
         }
-        if (newTransactionDTO.getAmount() <= 0.0){
+        if (newTransactionDTO.getAmount() <= 0.0) {
             return new ResponseEntity<>("Missing amount", HttpStatus.FORBIDDEN);
         }
         if (newTransactionDTO.getDescription().isBlank()) {
@@ -61,7 +57,6 @@ public class TransactionController {
         Account numberDestinationAccount = accountService.findByNumber(newTransactionDTO.getNumberDestinationAccount());
         Double amount = newTransactionDTO.getAmount();
         String description = newTransactionDTO.getDescription();
-
 
 
         if (newTransactionDTO.getNumberDestinationAccount().equals(newTransactionDTO.getNumberSourceAccount())) {
@@ -85,8 +80,8 @@ public class TransactionController {
 
         }
 
-        Transaction transactionDebit = new Transaction(TransactionType.DEBIT, Double.parseDouble("-" + amount), newTransactionDTO.getNumberDestinationAccount() + ": " + description, LocalDateTime.now());
-        Transaction transactionCredit = new Transaction(TransactionType.CREDIT, amount, newTransactionDTO.getNumberSourceAccount() + ": " + description, LocalDateTime.now());
+        Transaction transactionDebit = new Transaction(TransactionType.DEBIT, Double.parseDouble("-" + amount), newTransactionDTO.getNumberDestinationAccount() + ": " + description, LocalDateTime.now(), numberSourceAccount.getBalance() + amount, true);
+        Transaction transactionCredit = new Transaction(TransactionType.CREDIT, amount, newTransactionDTO.getNumberSourceAccount() + ": " + description, LocalDateTime.now(), numberDestinationAccount.getBalance() - amount, true);
 
         numberSourceAccount.setBalance(numberSourceAccount.getBalance() - amount);
         numberDestinationAccount.setBalance(numberDestinationAccount.getBalance() + amount);
@@ -97,10 +92,58 @@ public class TransactionController {
         transactionService.save(transactionDebit);
         transactionService.save(transactionCredit);
 
-        return new  ResponseEntity<>("Transaction realizada", HttpStatus.CREATED);
+        return new ResponseEntity<>("Transaction made", HttpStatus.CREATED);
 
+    }
+    @Transactional
+    @CrossOrigin(origins= "http://127.0.0.1:5500")
+    @PostMapping("/transactions/payments")
 
+    public ResponseEntity<Object> sendPayments(@RequestBody PaymentsDTO paymentsDTO) {
 
+        if (paymentsDTO.getCardNumber().isBlank()) {
+            return new ResponseEntity<>("Missing card number", HttpStatus.FORBIDDEN);
+        }
+        if (paymentsDTO.getCvv() <= 0) {
+            return new ResponseEntity<>("Missing destination account", HttpStatus.FORBIDDEN);
+        }
+        if (paymentsDTO.getAmount() == null) {
+            return new ResponseEntity<>("Missing amount", HttpStatus.FORBIDDEN);
+        }
+        if (paymentsDTO.getAmount() <= 0.0) {
+            return new ResponseEntity<>("Missing amount", HttpStatus.FORBIDDEN);
+        }
+        if (paymentsDTO.getDescription().isBlank()) {
+            return new ResponseEntity<>("Need to enter the description", HttpStatus.FORBIDDEN);
+        }
+
+        Card card = cardService.findByNumber(paymentsDTO.getCardNumber());
+        Client client = card.getClient();
+        Set<Account> accounts = client.getAccounts().stream().filter(account -> account.isActive()).collect(Collectors.toSet());
+
+        Account account = accounts.stream().filter(account1 -> account1.getBalance() >= paymentsDTO.getAmount()).findFirst().orElse(null);
+
+        if (card == null) {
+            return new ResponseEntity<>("Card doesn't exist", HttpStatus.FORBIDDEN);
+        }
+        if (!card.getNumber().equals(paymentsDTO.getCardNumber())) {
+            return new ResponseEntity<>("wrong card number", HttpStatus.FORBIDDEN);
+        }
+        if (client == null) {
+            return new ResponseEntity<>("Client doesn't exist", HttpStatus.FORBIDDEN);
+        }
+        if (account == null) {
+            return new ResponseEntity<>("Account doesn't exist", HttpStatus.FORBIDDEN);
+        }
+
+        Transaction transaction = new Transaction(TransactionType.DEBIT, paymentsDTO.getAmount(), paymentsDTO.getDescription(), LocalDateTime.now(), account.getBalance() - paymentsDTO.getAmount(), true);
+
+        transaction.setAccount(account);
+        transactionService.save(transaction);
+        account.setBalance(account.getBalance() - paymentsDTO.getAmount());
+        accountService.save(account);
+
+        return new ResponseEntity<>("Transaction made", HttpStatus.CREATED);
     }
 
 

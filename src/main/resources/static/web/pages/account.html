@@ -59,6 +59,7 @@
                         <th>Date</th>
                         <th>Description</th>
                         <th>Hour</th>
+                        <th>Current Balance</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -70,6 +71,7 @@
                         <td>{{transaction.description}}</td>
                         <td>{{transaction.date.slice(0,10)}}</td>
                         <td>{{transaction.date.slice(11,19)}}</td>
+                        <td>{{transaction.currentBalance}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -78,11 +80,19 @@
             </div>
         </div>
     </main>
-    <footer class=" container vh10 col-12 bg-primary d-flex align-items-center justify-content-center"
-        data-bs-theme="dark">
-        <p>Mindhub CH47 | Ayelen Ceresola</p>
+    <footer class="vh10 col-12 d-flex bg-primary align-items-center justify-content-center">
+        <h4 class="m-5">South Bank</h4>
+        <p class="m-5">Mindhub CH47 | Ayelen Ceresola</p>
+        <div class="d-flex align-items-end">
+            <a href="https://www.instagram.com/"><img class="icono-footer rounded-circle "
+                    src="../assets/images/png-transparent-made-in-kings-heath-instagram-facebook-female-graphy-instagram-logo-instagram-icon-text-trademark-magenta.png"
+                    alt="Icono-Instagram"></a>
+            <a href="https://es-la.facebook.com/"><img class="icono-footer rounded-circle "
+                    src="../assets/images/124010.png" alt="Icono-Facebock"></a>
+            <a href="https://www.whatsapp.com/"><img class="icono-footer rounded-circle "
+                    src="../assets/images/124034.png" alt="I-wsp"></a>
+        </div>
     </footer>
-
 </div>
 
 <body>

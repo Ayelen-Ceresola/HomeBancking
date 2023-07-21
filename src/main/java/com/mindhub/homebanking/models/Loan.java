@@ -18,6 +18,7 @@ public class Loan {
     private Long id;
     private String name;
     private Double maxAmount;
+    private Double percentage;
 
     @ElementCollection
     private List<Integer> payments;
@@ -28,10 +29,11 @@ public class Loan {
 
     public Loan (){}
 
-    public Loan(String name, Double maxAmount, List<Integer> payments) {
+    public Loan(String name, Double maxAmount, List<Integer> payments,Double percentage) {
         this.name = name;
         this.maxAmount = maxAmount;
         this.payments = payments;
+        this.percentage = percentage;
     }
 
     public Set<Client> getClient() {
@@ -69,10 +71,11 @@ public class Loan {
         this.payments = payments;
     }
 
-    public void addClientLoan(ClientLoan clientLoan){
-        clientLoan.setLoan(this);
-        clientLoans.add(clientLoan);
+    public Double getPercentage() {return percentage;}
 
+    public void setPercentage(Double percentage) {this.percentage = percentage;}
+
+    public void addClientLoan(ClientLoan clientLoan){clientLoan.setLoan(this);clientLoans.add(clientLoan);
     }
 
     @Override

@@ -10,9 +10,7 @@
   <link rel="stylesheet" href="../assets/style/style.css">
   <title>Accounts</title>
 </head>
-
 <body>
-
   <div id="app">
     <header class="vh10">
       <div class="welcome">
@@ -31,23 +29,14 @@
           <div class="collapse navbar-collapse p-1" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex align-items-center">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
-              </li>
-              <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="#">Accounts</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="../pages/cards.html">Cards</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Investments</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">We Lend</a>
-              </li>
             </ul>
             <a href="../pages/loan-application.html" type="button" class="btn btn-info m-2" >Apply Loan</a>
-            <button @click="createAccount()" class="btn btn-info" v-if="account1.length < 3">Creat Account</button>
+            <button @click="createAccount()" class="btn btn-info" v-if="accountsIsActive.length < 3">Creat Account</button>
             <button @click="logout()" class="btn btn-danger m-3">Logout</button>
             
           </div>
@@ -56,24 +45,28 @@
       <h5 class="text-center m-5">Hello {{clients.firstName}}! These are your account:</h5>
       <section class="d-flex flex-wrap justify-content-around m-3 text-center">
         
-      <div v-if="account1.length !=0" v-for="accounts of account1" class="col-4">
-        <div class="card m-2 shadow-lg p-3 mb-5 bg-body-tertiary rounded" >
+      <div v-if="accountsIsActive.length !=0" v-for="accounts of accountsIsActive" class="col-3 text-center">
+        <div class="card m-2 shadow-lg p-3 mb-5 bg-body-tertiary rounded " >
           <div class="card-header">
             Account {{accounts.number}}
           </div>
-          <div class="card-body  ">
+          <div class="card-body">
             <h5 class="card-title">Creation Date</h5>
             <p class="card-text">{{accounts.creationDate}}</p>
             <h5 class="card-title">Balance</h5>
-            <p class="card-text">${{accounts.balance.toFixed(2) }} </p> 
+            <p class="card-text">${{accounts.balance}} </p>
+            <h5 class="card-title">Account Type</h5>
+            <p class="card-text">{{accounts.type}} </p> 
             <a :href="'./account.html?id='+ accounts.id" type="button" class="btn btn-primary ">Transactions</a>
+            <button @click="deleteAccount(accounts.number)"  class="btn btn-danger ms-5 col-5 ">Delete</button>
           </div>
+          
         </div>
       </div>
       <p v-else> You don't have accounts</p>
       </section>
       <h5 class="text-center m-5">These are your Loans:</h5>
-      <section class="d-flex justify-content-center m-3 text-center">
+      <section class="d-flex justify-content-center m-3 text-center flex-wrap">
         <video class="col-1" src="../assets/images/laptop.mp4"></video>
         <div class=" d-flex col-3 m-5 " v-if="loans.length !=0" v-for="loan of loans">
           <div class="card col-10 m-2 shadow-lg p-3 mb-5 bg-body-tertiary rounded" >
@@ -83,17 +76,27 @@
             <div class="card-body">
               <p class="card-text"> Name: {{loan.loanName}}</p>
               <p class="card-text">Amount: ${{loan.amount}}</p>
-              <p class="card-text">Payments: {{loan.payments}} </p> 
+              <p class="card-text">Payments: {{loan.payments}} </p>
             </div>
+            <a :href="'./loanPayments.html?id='+ loan.id" type="button" class="btn btn-primary ">Payments</a>
           </div>
         </div>
         <p v-else> You don't have loans</p>
       </section>
     </main>
-    <footer class="vh10 col-12 bg-primary d-flex align-items-center justify-content-center"
-      >
-      <p>Mindhub CH47 | Ayelen Ceresola</p>
-    </footer>
+    <footer class="vh10 col-12 d-flex bg-primary align-items-center justify-content-center">
+      <h4 class="m-5">South Bank</h4>
+      <p class="m-5">Mindhub CH47 | Ayelen Ceresola</p>
+      <div class="d-flex align-items-end">
+          <a href="https://www.instagram.com/"><img class="icono-footer rounded-circle "
+                  src="../assets/images/png-transparent-made-in-kings-heath-instagram-facebook-female-graphy-instagram-logo-instagram-icon-text-trademark-magenta.png"
+                  alt="Icono-Instagram"></a>
+          <a href="https://es-la.facebook.com/"><img class="icono-footer rounded-circle "
+                  src="../assets/images/124010.png" alt="Icono-Facebock"></a>
+          <a href="https://www.whatsapp.com/"><img class="icono-footer rounded-circle "
+                  src="../assets/images/124034.png" alt="I-wsp"></a>
+      </div>
+  </footer>
     </div>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

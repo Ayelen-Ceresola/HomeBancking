@@ -1,5 +1,4 @@
 package com.mindhub.homebanking.services.implement;
-
 import com.mindhub.homebanking.models.Card;
 import com.mindhub.homebanking.models.CardColor;
 import com.mindhub.homebanking.models.CardType;
@@ -15,15 +14,12 @@ public class CardServiceImplement implements CardService {
     private CardRepository cardRepository;
 
     @Override
-    public Card findByClientAndColorAndType(Client client, CardColor cardColor, CardType cardType) {
-        return cardRepository.findByClientAndColorAndType(client,cardColor ,cardType );
+    public Card findByClientAndColorAndTypeAndIsActive(Client client, CardColor cardColor, CardType cardType, boolean isActive) {
+        return cardRepository.findByClientAndColorAndTypeAndIsActive(client,cardColor ,cardType, isActive );
     }
 
     @Override
-    public void save(Card card) {
-        cardRepository.save(card);
-
-    }
+    public void save(Card card) {cardRepository.save(card);}
 
     @Override
     public Card findByNumber(String cardNumber) {

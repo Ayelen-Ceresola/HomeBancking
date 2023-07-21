@@ -1,6 +1,7 @@
 package com.mindhub.homebanking.controllers;
 import com.mindhub.homebanking.dtos.ClientDTO;
 import com.mindhub.homebanking.models.Account;
+import com.mindhub.homebanking.models.AccountType;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.repositories.AccountRepository;
 import com.mindhub.homebanking.services.ClientService;
@@ -21,16 +22,16 @@ public class ClientController {
 
     @Autowired
     private ClientService clientService;
-
     @Autowired
     private AccountRepository accountRepository;
 
-    @RequestMapping ("/clients")
+
+    @GetMapping("/clients")
     public List<ClientDTO> getClients(){
         return clientService.findAll();
 
     }
-    @RequestMapping ("/clients/{id}")
+    @GetMapping("/clients/{id}")
     public ClientDTO getClient(@PathVariable Long id){
 
         return clientService.getClientDTO(id);
@@ -40,7 +41,7 @@ public class ClientController {
 
     private PasswordEncoder passwordEncoder;
 
-    @RequestMapping(path = "/clients", method = RequestMethod.POST)
+    @PostMapping("/clients")
 
     public ResponseEntity<Object> register(
 
@@ -72,7 +73,7 @@ public class ClientController {
         Client client =new Client(firstName, lastName, email, passwordEncoder.encode(password));
         clientService.save(client);
 
-        Account account= new Account("", LocalDate.now(),0.0);
+        Account account= new Account("", LocalDate.now(),0.0,true, AccountType.SAVINGS);
 
         Random random= new Random();
         String accountNumber = "VIN-" + (random.nextInt(90000000) + 100000);
@@ -88,7 +89,7 @@ public class ClientController {
         return new ResponseEntity<>(HttpStatus.CREATED);
 
     }
-    @RequestMapping("/clients/current")
+    @GetMapping("/clients/current")
     public ClientDTO getAuthenticatedClientDTO(Authentication authentication){
         return new ClientDTO(clientService.findByEmail(authentication.getName()));
     }

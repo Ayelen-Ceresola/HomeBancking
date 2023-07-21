@@ -3,6 +3,7 @@ package com.mindhub.homebanking.models;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,8 +20,9 @@ public class Card {
     private CardColor color;
     private String number;
     private  int cvv;
-    private LocalDateTime thruDate;
-    private LocalDateTime fromDate;
+    private LocalDate thruDate;
+    private LocalDate fromDate;
+    private boolean isActive;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "client_id")
@@ -28,7 +30,7 @@ public class Card {
 
     public Card(){}
 
-    public Card(String cardHolder, CardType type, CardColor color, String number, int cw, LocalDateTime thruDate, LocalDateTime fromDate) {
+    public Card(String cardHolder, CardType type, CardColor color, String number, int cvv, LocalDate thruDate, LocalDate fromDate, boolean isActive) {
         this.cardHolder = cardHolder;
         this.type = type;
         this.color = color;
@@ -36,6 +38,7 @@ public class Card {
         this.cvv = cvv;
         this.thruDate = thruDate;
         this.fromDate = fromDate;
+        this.isActive= isActive;
 
     }
 
@@ -79,19 +82,19 @@ public class Card {
 
     public void setCvv(int cvv) {this.cvv = cvv;}
 
-    public LocalDateTime getThruDate() {
+    public LocalDate getThruDate() {
         return thruDate;
     }
 
-    public void setThruDate(LocalDateTime thruDate) {
+    public void setThruDate(LocalDate thruDate) {
         this.thruDate = thruDate;
     }
 
-    public LocalDateTime getFromDate() {
+    public LocalDate getFromDate() {
         return fromDate;
     }
 
-    public void setFromDate(LocalDateTime fromDate) {
+    public void setFromDate(LocalDate fromDate) {
         this.fromDate = fromDate;
     }
 
@@ -103,7 +106,17 @@ public class Card {
         this.client = client;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
 
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean active) {
+        isActive = active;
+    }
 
     @Override
     public String toString() {

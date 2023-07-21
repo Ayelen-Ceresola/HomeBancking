@@ -15,7 +15,6 @@ createApp({
             payments: null,
             destinationAccount: "",
 
-
         }
     },
 
@@ -55,9 +54,6 @@ createApp({
                 .catch(err => console.log(err))
 
         },
-
-
-
         getLoan() {
             console.log(this.amount, this.loanType, this.payments, this.destinationAccount)
             Swal.fire({
@@ -125,8 +121,6 @@ createApp({
 
 
         },
-
-
         logout() {
             axios.post("/api/logout")
                 .then((res) => {

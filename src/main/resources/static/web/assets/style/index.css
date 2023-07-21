@@ -25,7 +25,7 @@
 }
 
 footer{
-    background-color:rgb(49, 49, 49) !important;
+    
     color: aliceblue;
 
 }
@@ -78,6 +78,11 @@ form button{
     padding: 10px 15px;
     cursor: pointer;
     font-size: 20px;
+}
+.icono-footer {
+    height:30px !important;
+    margin: 1rem !important;
+    
 }
 
 .alertCss{

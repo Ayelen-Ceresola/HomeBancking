@@ -31,8 +31,6 @@ createApp({
     methods: {
 
         loadData() {
-
-
             this.getId = new URLSearchParams(location.search).get("id")
             axios.get(`http://localhost:8080/api/accounts/${this.getId}`)
                 .then((res) => {

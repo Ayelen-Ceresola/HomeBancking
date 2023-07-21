@@ -24,9 +24,14 @@
     align-items: center !important;
     padding: 1rem !important;
 }
+.icono-footer {
+    height:30px !important;
+    margin: 1rem !important;
+    
+}
 
 footer{
-    background-color: #0d09e9 !important;
+    color: aliceblue;
 
 }
 

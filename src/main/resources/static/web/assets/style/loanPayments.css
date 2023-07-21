@@ -2,6 +2,8 @@
     margin: 0;
     padding:0;
     box-sizing: border-box;
+    font-family: 'Josefin Sans', sans-serif;
+    
     
 }
 
@@ -27,29 +29,5 @@
 .icono-footer {
     height:30px !important;
     margin: 1rem !important;
-    
-}
-footer{
-    color: aliceblue;
-
-}
-
-caption{
-    font-size:larger;
-    font-weight: bolder;
-    color: black;
-}
-
-table, th, tr, td {
-    border: 1px solid black !important;
-    border-collapse: collapse !important;
-}
-
-table {
-    margin: 2rem !important;
-}
-th {
-    height: 3rem !important;
-    padding: 1rem !important;
     
 }

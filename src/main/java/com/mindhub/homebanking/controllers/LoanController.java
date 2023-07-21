@@ -10,11 +10,9 @@ import com.mindhub.homebanking.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -35,14 +33,13 @@ public class LoanController {
     private TransactionService transactionService;
 
 
-
-    @RequestMapping("/loans")
+    @GetMapping("/loans")
 
     public List<LoanDTO> loanDTOList(){
         return loanService.findAll();
     }
     @Transactional
-    @RequestMapping(path = "/loans", method = RequestMethod.POST)
+    @PostMapping("/loans")
 
     public ResponseEntity<Object> loanRequest(@RequestBody LoanApplicationDTO loanApplicationDTO, Authentication authentication) {
 
@@ -83,9 +80,9 @@ public class LoanController {
             return new ResponseEntity<>("The account does not belong to the customer", HttpStatus.FORBIDDEN);
         }
 
-        Double interestsLoan = (loanApplicationDTO.getAmount() * 20 / 100) + (loanApplicationDTO.getAmount());
-        ClientLoan newLoan = new ClientLoan(interestsLoan, loanApplicationDTO.getPayments());
-        Transaction newTransaction = new Transaction(TransactionType.CREDIT, loanApplicationDTO.getAmount(), loanType.getName() + " Loan approved", LocalDateTime.now());
+        Double interestsLoan = (loanApplicationDTO.getAmount() * loanType.getPercentage()) + (loanApplicationDTO.getAmount());
+        ClientLoan newLoan = new ClientLoan(interestsLoan, loanApplicationDTO.getPayments(),loanApplicationDTO.getPayments(),loanApplicationDTO.getAmount());
+        Transaction newTransaction = new Transaction(TransactionType.CREDIT, loanApplicationDTO.getAmount(), loanType.getName() + " Loan approved", LocalDateTime.now(), account.getBalance()+ loanApplicationDTO.getAmount(),true) ;
 
         account.setBalance(account.getBalance() + loanApplicationDTO.getAmount());
         client.addClientLoan(newLoan);
@@ -98,6 +95,37 @@ public class LoanController {
         clientService.save(client);
 
         return new ResponseEntity<>("Loan credited to account", HttpStatus.ACCEPTED);
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("/loans/create")
+    public ResponseEntity<Object> loanCreateAdmin(@RequestBody LoanDTO loanDTO, Authentication authentication){
+
+        Client client = clientService.findByEmail(authentication.getName());
+        if(client == null){
+            return new ResponseEntity<>("no autenticado", HttpStatus.FORBIDDEN);
+        }
+
+        if (loanDTO.getName() == null) {
+            return new ResponseEntity<>("Missing loan name", HttpStatus.FORBIDDEN);
+        }
+        if (loanDTO.getName().isBlank()) {
+            return new ResponseEntity<>("Missing loan name", HttpStatus.FORBIDDEN);
+        }
+        if (loanDTO.getPayments() == null) {
+            return new ResponseEntity<>("Missing payments", HttpStatus.FORBIDDEN);
+        }
+        if (loanDTO.getMaxAmount() <= 0){
+            return new ResponseEntity<>("Missing amount", HttpStatus.FORBIDDEN);
+        }
+        if (loanDTO.getPercentage() <= 0.0){
+            return new ResponseEntity<>("Missing percentage", HttpStatus.FORBIDDEN);
+        }
+
+        Loan loan = new Loan(loanDTO.getName(), loanDTO.getMaxAmount(), loanDTO.getPayments(),loanDTO.getPercentage());
+        loanService.save(loan);
+        return new ResponseEntity<>("Loan created",HttpStatus.CREATED);
 
     }
+
 }

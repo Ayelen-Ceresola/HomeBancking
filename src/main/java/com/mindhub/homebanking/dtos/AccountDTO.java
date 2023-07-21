@@ -1,6 +1,7 @@
 package com.mindhub.homebanking.dtos;
 
 import com.mindhub.homebanking.models.Account;
+import com.mindhub.homebanking.models.AccountType;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -12,6 +13,7 @@ public class AccountDTO {
         private String number;
         private LocalDate creationDate;
         private Double balance;
+        private AccountType type;
 
         private Set<TransactionDTO> transactions;
 
@@ -22,6 +24,7 @@ public class AccountDTO {
             this.number = account.getNumber();
             this.balance = account.getBalance();
             this.creationDate= account.getCreationDate();
+            this.type= account.getType();
             this.transactions= account.getTransactions()
                     .stream()
                     .map(transaction -> new TransactionDTO(transaction))
@@ -49,4 +52,6 @@ public class AccountDTO {
     public Set<TransactionDTO> getTransactions() {
         return transactions;
     }
+
+    public AccountType getType() {return type; }
 }

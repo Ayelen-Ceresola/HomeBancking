@@ -28,6 +28,15 @@
     align-items: center !important;
     padding: 1rem !important;
 }
+.icono-footer {
+    height:30px !important;
+    margin: 1rem !important;
+    
+}
+footer{
+    color: aliceblue;
+
+}
 
 
 /*.container {
@@ -178,5 +187,9 @@
 .titaniumColor{
     background-image: url(../images/titanium.jpg) !important;
     background-size: cover !important;
+}
+.expiredCard{
+    background-image: url(../images/126292390-marca-de-agua-de-sello-de-sello-expired-con-estilo-de-impresión-de-goma-y-forma-de-rectángulo-con.webp) !important;
+    background-size: contain !important;
 }
 

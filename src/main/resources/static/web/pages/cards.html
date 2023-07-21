@@ -28,23 +28,16 @@
           </button>
           <div class="collapse navbar-collapse p-1" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex align-items-center">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
-              </li>
+
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="../pages/accounts.html">Accounts</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="#">Cards</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Investments</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">We Lend</a>
-              </li>
             </ul>
-            <a type="button" href="../pages/create-cards.html" class="btn btn-info m-2" v-if="creditCard.length < 3 || debitCard.length < 3">Create</a>
+            <a type="button" href="../pages/create-cards.html" class="btn btn-info m-2"
+              v-if="creditCard.length < 3 || debitCard.length < 3">Create</a>
             <button @click="logout()" class="btn btn-danger">Logout</button>
           </div>
         </div>
@@ -91,11 +84,14 @@
               </div>
             </div>
           </div>
+          <button @click="deletCard(card.number)" class="btn btn-danger ms-5">Delete</button>
+          <button @click="renewCard(card.number)" class="btn btn-info ms-2"
+            v-if="dateCheck(card.thruDate)">Renew</button>
         </div>
       </div>
       <p class="text-center" v-else> You don't have Debit Card</p>
-     <h5 class="text-center m-5">{{clients.firstName}} these are your Credit Card:</h5>
-      <div v-if="creditCard.length != 0" v-for="card of creditCard" >
+      <h5 class="text-center m-5">{{clients.firstName}} these are your Credit Card:</h5>
+      <div v-if="creditCard.length != 0" v-for="card of creditCard">
         <div class="container">
           <div class="card">
             <div class="card-inner">
@@ -136,22 +132,32 @@
               </div>
             </div>
           </div>
+          <button @click="deletCard(card.number)" class="btn btn-danger ms-5">Delete</button>
+
         </div>
       </div>
       <p class="text-center" v-else> You don't have Credit Card</p>
-
     </main>
-    <footer id="footer" class="vh10 col-12 bg-primary d-flex align-items-center justify-content-center"
-      data-bs-theme="dark">
-      <p>Mindhub CH47 | Ayelen Ceresola</p>
+    <footer class="vh10 col-12 d-flex bg-primary align-items-center justify-content-center">
+      <h4 class="m-5">South Bank</h4>
+      <p class="m-5">Mindhub CH47 | Ayelen Ceresola</p>
+      <div class="d-flex align-items-end">
+        <a href="https://www.instagram.com/"><img class="icono-footer rounded-circle "
+            src="../assets/images/png-transparent-made-in-kings-heath-instagram-facebook-female-graphy-instagram-logo-instagram-icon-text-trademark-magenta.png"
+            alt="Icono-Instagram"></a>
+        <a href="https://es-la.facebook.com/"><img class="icono-footer rounded-circle "
+            src="../assets/images/124010.png" alt="Icono-Facebock"></a>
+        <a href="https://www.whatsapp.com/"><img class="icono-footer rounded-circle " src="../assets/images/124034.png"
+            alt="I-wsp"></a>
+      </div>
     </footer>
-
   </div>
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
     crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="../assets/archivosJs/cards.js"></script>
 </body>
 

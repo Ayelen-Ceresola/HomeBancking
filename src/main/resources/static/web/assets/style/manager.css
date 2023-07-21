@@ -2,7 +2,8 @@
     margin: 0;
     padding:0;
     box-sizing: border-box;
-    
+    font-family: 'Josefin Sans', sans-serif;
+        
 }
 
 .layout {
@@ -13,7 +14,6 @@
     height: 10vh !important;
 
 }
-
 .logo {
     width: 60px !important;
 }
@@ -24,12 +24,16 @@
     align-items: center !important;
     padding: 1rem !important;
 }
-.icono-footer {
-    height:30px !important;
-    margin: 1rem !important;
-    
-}
-footer{
-    color: aliceblue;
+.formClient{
+    width: 40rem !important;
+    margin: 3rem !important;
 
+}
+.table{
+    width: 40rem !important;
+    margin: 3rem !important;
+}
+.json{
+    margin: 3rem !important;
+    
 }

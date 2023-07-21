@@ -1,13 +1,9 @@
 package com.mindhub.homebanking.models;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -20,6 +16,8 @@ public class Account {
     private String number;
     private LocalDate creationDate;
     private Double balance;
+    private boolean isActive;
+    private AccountType type;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="client_id")
@@ -30,10 +28,13 @@ public class Account {
 
     public Account (){}
 
-    public Account (String number,LocalDate creationDate,Double balance){
+    public Account (String number,LocalDate creationDate,Double balance,boolean isActive,AccountType type){
         this.number = number;
         this.creationDate= creationDate;
         this.balance= balance;
+        this.isActive= isActive;
+        this.type = type;
+
 
     }
 
@@ -87,4 +88,12 @@ public class Account {
     public void setTransactions(Set<Transaction> transactions) {
         this.transactions = transactions;
     }
+
+    public boolean isActive() {return isActive;}
+
+    public void setActive(boolean active) {isActive = active;}
+
+    public AccountType getType() {return type;}
+
+    public void setType(AccountType type) {this.type = type;}
 }

@@ -1,23 +1,26 @@
 package com.mindhub.homebanking.controllers;
-
+import com.mindhub.homebanking.dtos.CardDTO;
 import com.mindhub.homebanking.models.Card;
 import com.mindhub.homebanking.models.CardColor;
 import com.mindhub.homebanking.models.CardType;
 import com.mindhub.homebanking.models.Client;
-import com.mindhub.homebanking.repositories.CardRepository;
-import com.mindhub.homebanking.repositories.ClientRepository;
 import com.mindhub.homebanking.services.CardService;
 import com.mindhub.homebanking.services.ClientService;
+import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.stream.Collectors;
+
+import static com.mindhub.homebanking.utils.CardUtils.getCvv;
+import static com.mindhub.homebanking.utils.CardUtils.getStringBuilder;
+
 
 @RestController
 @RequestMapping("/api")
@@ -25,55 +28,34 @@ public class CardController {
 
     @Autowired
     private CardService cardService;
-
     @Autowired
     private ClientService clientService;
 
-    @RequestMapping(path = "/clients/current/cards", method = RequestMethod.POST)
+
+    @PostMapping("/clients/current/cards")
     public ResponseEntity<Object> createCardCurrentClient(Authentication authentication, @RequestParam CardColor cardColor, @RequestParam CardType cardType) {
 
 
-
-        Client client= clientService.findByEmail(authentication.getName());
-
-        if (cardService.findByClientAndColorAndType(client,cardColor,cardType )!= null){
-
+        Client client = clientService.findByEmail(authentication.getName());
+        if (client.getCards().stream().filter(card -> card.getType() == cardType && card.getColor() == cardColor && card.isActive() ).count()>= 1) {
             return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
 
-        }else {
+        } else {
 
-            Card newCard = new Card(client.getFirstName() + " " + client.getLastName(), cardType, cardColor, "", 0, LocalDateTime.now().plusYears(5), LocalDateTime.now());
+            Card newCard = new Card(client.getFirstName() + " " + client.getLastName(), cardType, cardColor, "", 0, LocalDate.now().plusYears(5), LocalDate.now(), true);
 
 
-            Random randomCvv = new Random();
-            int cvv = randomCvv.nextInt(900) + 100;
+            int cvv = getCvv();
 
-            Random randomNumber = new Random();
-            StringBuilder sb = new StringBuilder();
-
-            for (int i = 0; i < 4; i++) {
-                int number = randomNumber.nextInt(9000) + 1000;
-                sb.append(number);
-                if (i < 3) {
-                    sb.append(" ");
-                }
-            }
+            StringBuilder sb = getStringBuilder();
 
             String cardNumber = sb.toString();
 
             while (cardService.findByNumber(cardNumber) != null) {
-                Random randomNumber2 = new Random();
-                StringBuilder sb2 = new StringBuilder();
+                sb = getStringBuilder();
 
-                for (int i = 0; i < 4; i++) {
-                    int number = randomNumber2.nextInt(9000) + 1000;
-                    sb.append(number);
-                    if (i < 3) {
-                        sb2.append("-");
+                cardNumber = sb.toString();
 
-                    }
-                }
-                String cardNumber2 = sb.toString();
             }
 
             newCard.setNumber(cardNumber);
@@ -81,8 +63,70 @@ public class CardController {
             client.addCard(newCard);
             cardService.save(newCard);
 
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            return new ResponseEntity<>("Card create",HttpStatus.CREATED);
 
         }
     }
+    @GetMapping("/clients/current/cards")
+    public List<CardDTO> getCurrentCardIsActive(Authentication authentication){
+        Client client = clientService.findByEmail(authentication.getName());
+        List<CardDTO> cardDTOList= client.getCards().stream().filter(card -> card.isActive())
+                .map(card -> new CardDTO(card))
+                .collect(Collectors.toList());
+        return cardDTOList;
+
+    }
+
+    @PatchMapping("/clients/current/cards/delete")
+    public ResponseEntity<Object> deleteCard(Authentication authentication, @RequestParam String cardNumber) {
+
+        if (cardNumber.isBlank()){
+            return new ResponseEntity<>("Missing card number", HttpStatus.FORBIDDEN);
+        }
+        if(!authentication.isAuthenticated()){
+            return new ResponseEntity<>("Client is not authenticated", HttpStatus.FORBIDDEN);
+        }
+
+        Client client = clientService.findByEmail(authentication.getName());
+        Card card = cardService.findByNumber(cardNumber);
+
+        if(client.getCards().stream().noneMatch(card1 -> card1.getNumber().equals(cardNumber))){
+            return new ResponseEntity<>("card does not belong to you", HttpStatus.FORBIDDEN);
+        }
+
+        card.setIsActive(false);
+        cardService.save(card);
+        return new ResponseEntity<>("Card deleted", HttpStatus.OK);
+    }
+
+    @PostMapping("/cards/renew")
+    public ResponseEntity<Object> renewCard(Authentication authentication, @RequestParam String cardNumber){
+        if (cardNumber.isBlank()){
+            return new ResponseEntity<>("Missing card number", HttpStatus.FORBIDDEN);
+        }
+        if(!authentication.isAuthenticated()){
+            return new ResponseEntity<>("Client is not authenticated", HttpStatus.FORBIDDEN);
+        }
+        Client client = clientService.findByEmail(authentication.getName());
+        Card card = cardService.findByNumber(cardNumber);
+
+        if(!client.getCards().contains(card)){
+            return new ResponseEntity<>("card does not belong to you", HttpStatus.FORBIDDEN);
+        }
+
+        if(!card.getThruDate().isBefore(LocalDate.now())){
+            return new ResponseEntity<>("Card is not expired", HttpStatus.FORBIDDEN);
+        }
+        card.setIsActive(false);
+        cardService.save(card);
+
+        createCardCurrentClient(authentication,card.getColor(),card.getType());
+        return new ResponseEntity<>("renewed card", HttpStatus.CREATED);
+
+
+    }
+
+
+
+
 }

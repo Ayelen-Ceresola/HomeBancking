@@ -21,40 +21,56 @@ createApp({
     methods: {
         login() {
             if (this.email && this.password) {
-                axios.post("/api/login", `email=${this.email}&password=${this.password}`,
-                    { headers: { 'content-type': 'application/x-www-form-urlencoded' } })
-
-                    .then((res) => {
-                        Swal.fire({
-                            position: 'top-center',
-                            icon: 'success',
-                            title: 'Welcome',
-                            showConfirmButton: false,
-                            timer: 2000,
-                            customClass:{
-                                popup: `alertCss`
+                if (this.email.includes("admin")) {
+                    axios.post("/api/login", `email=${this.email}&password=${this.password}`,
+                        { headers: { 'content-type': 'application/x-www-form-urlencoded' } })
+                        .then(res => {
+                            if (res.status == 200) {
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: 'Welcome!',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                                setTimeout(() => {
+                                    window.location.href = "/web/manager.html";
+                                }, 1800)
                             }
-                          })
-                        window.location.href = "/web/pages/accounts.html"
-                        
-
-                    })
-                    .catch(err => console.log(err.data.error))
-
-            } else {
-                Swal.fire({
-                    position: 'top-center',
-                    icon: 'error',
-                    title: 'Fill in all the fields',
-                    showConfirmButton: false,
-                    timer: 2000,
-                    customClass:{
-                        popup: `alertCss`
-                    }
-                  })
-                
+                        }).catch(err => {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'error',
+                                title: 'Incorrect, try again!!',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        })
+                } else {
+                    axios.post('/api/login', `email=${this.email}&password=${this.password}`, { headers: { 'content-type': 'application/x-www-form-urlencoded' }})
+                        .then( res => {{
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: 'Welcome!',
+                                    showConfirmButton: false,
+                                    timer: 1000
+                                })
+                                setTimeout(() => {
+                                    window.location.href = "/web/pages/accounts.html";
+                                }, 1800)
+                            }
+                        }).catch(err => {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'error',
+                                title: 'Incorrect, try again!!',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        })
+                }
             }
-
         },
 
         register() {

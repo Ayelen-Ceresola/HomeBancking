@@ -41,6 +41,14 @@ createApp({
                     }
                   })*/
                 
+            },
+            
+            logout(){
+                axios.post("/api/logout")
+                .then((res) => {
+                    window.location.href= "/web/pages/index.html"
+                })
+                .catch(err => console.log(err))
             }
 
         },

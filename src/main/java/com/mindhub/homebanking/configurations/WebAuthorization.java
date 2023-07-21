@@ -31,18 +31,19 @@ public class WebAuthorization  {
                 .antMatchers(HttpMethod.POST,"/api/login").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/clients").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/logout").permitAll()
+                .antMatchers(HttpMethod.POST,"/transactions/payments").permitAll()
                 .antMatchers(HttpMethod.POST,"/clients/current/accounts","/api/clients/current/cards").hasAuthority("CLIENT")
                 .antMatchers(HttpMethod.POST,"/api/loans").hasAuthority("CLIENT")
                 .antMatchers(HttpMethod.POST,"/api/transaction").hasAuthority("CLIENT")
+                .antMatchers(HttpMethod.PATCH,"/clients/current/cards/delete").hasAuthority("CLIENT")
+                .antMatchers("/client/current/cards/**").hasAuthority("CLIENT")
                 .antMatchers("/web/pages/**","/api/clients/current/**").hasAuthority("CLIENT")
                 .antMatchers("/api/loans").hasAuthority("CLIENT")
                 .antMatchers("/api/accounts").hasAuthority("CLIENT")
                 .antMatchers("/api/accounts/{id}").hasAuthority("CLIENT")
                 .antMatchers("/api/accounts").hasAuthority("CLIENT")
+                .antMatchers(HttpMethod.POST,"/api/loans/create").hasAuthority("ADMIN")
                 .antMatchers( "/h2-console","/rest/**","/api/clients","/web/manager.html").hasAuthority("ADMIN");
-
-
-
 
 
 
@@ -75,6 +76,7 @@ public class WebAuthorization  {
         //si el cierre de sesion es exitoso se envia una respuesta de exitosa
         http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
 
+        http.cors();
         //construye y devuelve el filtro configurado
         return http.build();
     }
